@@ -4,6 +4,7 @@ import {environment} from '@environment/environment';
 import {GiphyResponse} from '../interfaces/giphy.interface';
 import {Gif} from '../interfaces/gif.interface';
 import {GifMapper} from '../mapper/gif.mapper';
+import {map, tap} from 'rxjs';
 
 
 @Injectable({providedIn: 'root'})
@@ -30,5 +31,22 @@ export class GiphyService {
       this.trendingGifsLoading.set(false);
       console.log(this.trendingGifs())
     });
+  }
+
+
+  searchGifs(search: string) {
+    return this.http.get<GiphyResponse>(`${environment.giphyUrl}/gifs/search`, {
+      params: {
+        api_key: environment.giphyApiKey,
+        q: search,
+        limit: 20,
+        rating: 'g'
+      }
+    }).pipe(
+      map(({data}) => data),
+      map(item => GifMapper.mapGiphyItemsToGifArray(item))
+
+      // TODO: History
+    );
   }
 }

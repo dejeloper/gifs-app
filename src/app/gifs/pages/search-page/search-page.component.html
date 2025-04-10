@@ -1,1 +1,16 @@
-<p>search-page works!</p>
+<h2 class="text-2xl font-bold mt-5">Buscar gifs</h2>
+<h3 class="text-sm text-gray-500">Buscar por palabra clave</h3>
+
+<section class="flex flex-col gap-5">
+  <input
+    type="text"
+    placeholder="Buscar por palabra clave"
+    class="w-full mt-2 p-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+    (keyup.enter)="onSearch(searchInput.value)"
+    #searchInput
+  />
+</section>
+
+<section class="py-5">
+  <gif-list [gifs]="gifsSearch()"></gif-list>
+</section>
